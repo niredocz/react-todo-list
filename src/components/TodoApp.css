@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+}
+
+.todo-wrap {
+  padding: 100px 0;
+}
+
+form {
+  gap: 15px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+form input {
+  padding: 15px;
+}
+
+form button {
+  padding: 15px 25px;
+}
+
+.list-todo {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.list-todo .result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #7c7c7c;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+  .list-todo .result h1 {
+    line-height: 1;
+  }
