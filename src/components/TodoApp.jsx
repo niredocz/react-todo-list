@@ -1,52 +1,63 @@
-import React, { useState } from 'react'
-
-import './TodoApp.css'
+import React, { useState } from "react"
+import Task from "./Task"
+import "./TodoApp.css"
 
 function TodoApp() {
   const [todoList, setTodoList] = useState([])
-  const [newTask, setNewTask] = useState('')
+  const [newTask, setNewTask] = useState("")
 
   const handleChange = (e) => {
     const value = e.target.value
     setNewTask(value)
   }
 
-  const handleSubmit = () => {
-    const newTodoList = [...todoList, newTask];
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
-    setTodoList(newTodoList)
+    if (newTask !== "") {
+      const task = {
+        // id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
+        id: todoList.length + 1,
+        taskName: newTask,
+      }
+
+      const newTodoList = [...todoList, task]
+      setTodoList(newTodoList)
+    }
+    setNewTask("")
   }
 
-  const handleDelete = (i) => {
-    const deleteTodoList = todoList.filter((i) => {
-      if (i === i) {
-        return false
-      } else {
-        return true
-      }
-    })
+  const handleDelete = (id) => {
+    const deleteTodoList = todoList.filter((todo) => todo.id !== id)
 
-    // setTodoList(deleteTodoList)
-
-    console.log(deleteTodoList)
+    setTodoList(deleteTodoList)
   }
 
   return (
-    <div className='todo-wrap'>
-      <form>
-        <input type="text" id="input-form" onChange={handleChange} />
-        <button type='button' onClick={handleSubmit}>Add Task</button>
+    <div className="todo-wrap">
+      <h1 style={{ marginBottom: 30 }}>Todo App</h1>
+      <form autoComplete="off">
+        <input
+          type="text"
+          id="input-form"
+          value={newTask}
+          onChange={handleChange}
+          placeholder="Input Todo List ..."
+        />
+        <button onClick={handleSubmit}>+ Add Task</button>
       </form>
 
-      <div className='list-todo'>
+      <div className="list-todo">
+        <h2 style={{ marginBottom: 30 }}>Todo List</h2>
         {todoList.map((todoName, i) => {
           return (
-            <div className='result' key={i}>
-              <h1>
-                {todoName}
-              </h1>
-              <button type='button' onClick={() => handleDelete(i)}>X</button>
-            </div>
+            <Task
+              key={i}
+              id={todoName.id}
+              taskNameValue={todoName.taskName}
+              inputChange={handleChange}
+              btnDelete={() => handleDelete(todoName.id)}
+            />
           )
         })}
       </div>
