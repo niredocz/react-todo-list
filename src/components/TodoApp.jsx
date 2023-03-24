@@ -1,9 +1,19 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Task from "./Task"
 import "./TodoApp.css"
 
 function TodoApp() {
-  const [todoList, setTodoList] = useState([])
+  // const [todoList, setTodoList] = useState([])
+  const [todoList, setTodoList] = useState(() => {
+    const savedTodos = localStorage.getItem("todoList")
+
+    if (savedTodos) {
+      return JSON.parse(savedTodos)
+    } else {
+      return []
+    }
+  })
+
   const [newTask, setNewTask] = useState("")
 
   const handleChange = (e) => {
@@ -16,22 +26,28 @@ function TodoApp() {
 
     if (newTask !== "") {
       const task = {
-        // id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
-        id: todoList.length + 1,
-        taskName: newTask,
+        id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
+        // id: todoList.length + 1,
+        taskName: newTask.trim(),
       }
 
       const newTodoList = [...todoList, task]
       setTodoList(newTodoList)
+    } else {
+      alert("mohon todo harus diisi !")
     }
     setNewTask("")
   }
 
   const handleDelete = (id) => {
-    const deleteTodoList = todoList.filter((todo) => todo.id !== id)
+    const removeItem = todoList.filter((newTask) => newTask.id !== id)
 
-    setTodoList(deleteTodoList)
+    setTodoList(removeItem)
   }
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList))
+  }, [todoList])
 
   return (
     <div className="todo-wrap">
@@ -49,14 +65,14 @@ function TodoApp() {
 
       <div className="list-todo">
         <h2 style={{ marginBottom: 30 }}>Todo List</h2>
-        {todoList.map((todoName, i) => {
+        {todoList.map((newTask, i) => {
           return (
             <Task
               key={i}
-              id={todoName.id}
-              taskNameValue={todoName.taskName}
+              id={newTask.id}
+              taskNameValue={newTask.taskName}
               inputChange={handleChange}
-              btnDelete={() => handleDelete(todoName.id)}
+              btnDelete={() => handleDelete(newTask.id)}
             />
           )
         })}
