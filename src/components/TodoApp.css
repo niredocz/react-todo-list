@@ -78,4 +78,17 @@ form button {
 .list-todo .result button {
   width: 55px;
   border-radius: 10px;
+  outline: none;
+  border: 1px solid #fff;
+  box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.2);
+  font-size: 20px;
+}
+
+.list-todo .result .btn-edit {
+  background-color: #00d09e;
+}
+
+.list-todo .result .btn-edit:focus,
+.list-todo .result .btn-edit:hover {
+  background-color: #00b489;
 }
